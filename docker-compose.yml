@@ -1,0 +1,21 @@
+services:
+  waha:
+    image: devlikeapro/waha
+    container_name: smartaquarium-waha
+    restart: unless-stopped
+    # Bind ke loopback laptop saja; tidak diekspos ke jaringan umum.
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - "./sessions:/app/.sessions"
+    environment:
+      WAHA_API_KEY: "${WAHA_API_KEY}"
+      WAHA_DASHBOARD_USERNAME: "${WAHA_DASHBOARD_USERNAME}"
+      WAHA_DASHBOARD_PASSWORD: "${WAHA_DASHBOARD_PASSWORD}"
+      WHATSAPP_SWAGGER_USERNAME: "${WHATSAPP_SWAGGER_USERNAME}"
+      WHATSAPP_SWAGGER_PASSWORD: "${WHATSAPP_SWAGGER_PASSWORD}"
+      WAHA_BASE_URL: "http://localhost:3000"
+      WHATSAPP_DEFAULT_ENGINE: "WEBJS"
+      WHATSAPP_HOOK_URL: "http://host.docker.internal:5000/webhook"
+      WHATSAPP_HOOK_EVENTS: "message"
+      WHATSAPP_HOOK_CUSTOM_HEADERS: "X-WAHA-Hook-Secret:${WAHA_WEBHOOK_SECRET}"
